@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "@educational-technology-collective/etc_jupyterlab_awareness",
+  "description": "@educational-technology-collective/etc_jupyterlab_awareness settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
