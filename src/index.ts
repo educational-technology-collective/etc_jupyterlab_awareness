@@ -9,7 +9,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IStateDB } from '@jupyterlab/statedb';
 
-import { requestAPI } from './handler';
+// import { requestAPI } from './handler';
 
 const PLUGIN_ID = '@educational-technology-collective/etc_jupyterlab_awareness:plugin';
 /**
@@ -18,8 +18,17 @@ const PLUGIN_ID = '@educational-technology-collective/etc_jupyterlab_awareness:p
 const plugin: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
-  requires: [ISettingRegistry, INotebookTracker, IStateDB],
-  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry | null, notebookTracker: INotebookTracker, stateDB: IStateDB) => {
+  requires: [
+    ISettingRegistry, 
+    INotebookTracker, 
+    IStateDB
+  ],
+  activate: (
+    app: JupyterFrontEnd, 
+    settingRegistry: ISettingRegistry | null, 
+    notebookTracker: INotebookTracker, 
+    stateDB: IStateDB
+    ) => {
 
     (async () => {
       console.log('JupyterLab extension @educational-technology-collective/etc_jupyterlab_awareness is activated!');
@@ -28,18 +37,18 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
       console.log('document.cookie1', document.cookie)
 
-      let env = await requestAPI<any>('get_example');
-      console.log('env', env);
+      // let env = await requestAPI<any>('get_example');
+      // console.log('env', env);
 
-      let hubUser = env['os.environ']['JUPYTERHUB_USER'];
-      console.log('hub_user', hubUser);
+      // let hubUser = env['os.environ']['JUPYTERHUB_USER'];
+      // console.log('hub_user', hubUser);
 
-      if (!document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))) {
+      // if (!document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))) {
 
-        document.cookie = `hub_user=${hubUser}; domain=mentoracademy.org; path=/; max-age=${60*60*24*365};`;
-      }
+      //   document.cookie = `hub_user=${hubUser}; domain=mentoracademy.org; path=/; max-age=${60*60*24*365};`;
+      // }
 
-      console.log('document.cookie2', document.cookie);
+      // console.log('document.cookie2', document.cookie);
 
       notebookTracker.forEach((notebookPanel: NotebookPanel) => {
         console.log('forEach');
@@ -105,7 +114,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       //     });
       // }
 
-    })()
+    })();
   }
 };
 
