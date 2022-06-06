@@ -5,10 +5,6 @@ import {
 
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
-
-import { IStateDB } from '@jupyterlab/statedb';
-
 const PLUGIN_ID = '@educational-technology-collective/etc_jupyterlab_awareness:plugin';
 /**
  * Initialization data for the @educational-technology-collective/etc_jupyterlab_awareness extension.
@@ -17,15 +13,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
   id: PLUGIN_ID,
   autoStart: true,
   requires: [
-    ISettingRegistry,
-    INotebookTracker,
-    IStateDB
+    INotebookTracker
   ],
   activate: (
     app: JupyterFrontEnd,
-    settingRegistry: ISettingRegistry | null,
-    notebookTracker: INotebookTracker,
-    stateDB: IStateDB
+    notebookTracker: INotebookTracker
   ) => {
 
     (async () => {
@@ -47,7 +39,6 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
         setAwareness(notebookPanel);
       });
-
 
       notebookTracker.widgetAdded.connect(async (sender: INotebookTracker, notebookPanel: NotebookPanel) => {
 
