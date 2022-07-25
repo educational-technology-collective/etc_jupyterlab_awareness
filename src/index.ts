@@ -5,6 +5,8 @@ import {
 
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
+import { requestAPI } from "./handler";
+
 const PLUGIN_ID = '@educational-technology-collective/etc_jupyterlab_awareness:plugin';
 /**
  * Initialization data for the @educational-technology-collective/etc_jupyterlab_awareness extension.
@@ -21,8 +23,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
   ) => {
 
     (async () => {
-      console.log('JupyterLab extension @educational-technology-collective/etc_jupyterlab_awareness is activated!');
 
+      const VERSION = await requestAPI<string>("version")
+
+      console.log(`${PLUGIN_ID}, ${VERSION}`);
+      
       await app.restored;
 
       async function setAwareness(notebookPanel: NotebookPanel) {
