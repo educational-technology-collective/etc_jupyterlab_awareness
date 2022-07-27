@@ -13,19 +13,12 @@ class RouteHandler(APIHandler):
     # Jupyter server
     @tornado.web.authenticated
     def get(self, resource):
-        # self.finish(json.dumps({
-        #     "data": "This is /etc-jupyterlab-awareness/get_example endpoint!"
-        # }))
 
         try:
             self.set_header('Content-Type', 'application/json')
             
             if resource == 'version':
                 self.finish(json.dumps(_fetchVersion()))
-            elif resource == 'config':
-                self.finish(json.dumps(self.config))
-            elif resource == 'environ':
-                self.finish(json.dumps({k:v for k, v in os.environ.items()}))
             else:
                 self.set_status(404)
 

@@ -5,6 +5,8 @@ import {
 
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
+import * as ymodels from '@jupyterlab/shared-models';
+
 import { requestAPI } from "./handler";
 
 const PLUGIN_ID = '@educational-technology-collective/etc_jupyterlab_awareness:plugin';
@@ -37,7 +39,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
         let hubUser = document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))?.split('=')[1];
 
-        (notebookPanel?.content.model?.sharedModel as any).awareness.setLocalStateField('user', { name: hubUser });
+        ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', { name: hubUser });
       }
 
       notebookTracker.forEach((notebookPanel: NotebookPanel) => {
