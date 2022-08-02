@@ -29,7 +29,7 @@
     "url": "https://github.com/educational-technology-collective/etc_jupyterlab_awareness.git"
   },
   "scripts": {
-    "build:deploy": "npm run build && python -m build && git status && git add . && git commit -m 'build:deploy' && git push",
+    "build:deploy": "jlpm run build && rm -rf dist && python -m build . && git status && git add . && git commit -m 'build:deploy' && git push",
     "build": "jlpm build:lib && jlpm build:labextension:dev",
     "build:prod": "jlpm clean && jlpm build:lib && jlpm build:labextension",
     "build:labextension": "jupyter labextension build .",
