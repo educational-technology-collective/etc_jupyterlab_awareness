@@ -1,7 +1,6 @@
 import json
 import os
 import requests
-import re
 
 from jupyter_server.base.handlers import APIHandler
 from jupyter_server.utils import url_path_join
@@ -26,7 +25,7 @@ class RouteHandler(APIHandler):
                     jupyterhub_api_url = os.getenv('JUPYTERHUB_API_URL')
                     token = self.request.headers['authorization']
                     headers = {'authorization': f'{token}', 'accept': 'application/json'}
-                    response = requests.get(f'{jupyterhub_api_url}/hub/api/user', headers=headers)
+                    response = requests.get(f'{jupyterhub_api_url}/user', headers=headers)
                     response.raise_for_status()
                     response = response.json()    
                     self.finish(response['name'])
