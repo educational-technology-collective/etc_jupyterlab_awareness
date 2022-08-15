@@ -32,14 +32,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
         console.log(`${PLUGIN_ID}, ${VERSION}`);
 
-        const hubName = await requestAPI<string>("hub_user")
+        const hubUser = await requestAPI<string>("hub_user")
 
         async function setAwareness(notebookPanel: NotebookPanel) {
 
           await notebookPanel.revealed;
           await notebookPanel.sessionContext.ready;
     
-          ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', hubName);
+          ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', hubUser);
         }
 
         await app.restored;
