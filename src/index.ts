@@ -26,36 +26,38 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
     (async () => {
 
-      const VERSION = await requestAPI<string>("version")
+      try {
 
-      console.log(`${PLUGIN_ID}, ${VERSION}`);
+        const VERSION = await requestAPI<string>("version")
 
-      const hubUser = await requestAPI<string>("hub_user")
+        console.log(`${PLUGIN_ID}, ${VERSION}`);
 
-      console.log(hubUser);
+        const hubUser = await requestAPI<string>("hub_user")
 
-      await app.restored;
+        async function setAwareness(notebookPanel: NotebookPanel) {
 
-      async function setAwareness(notebookPanel: NotebookPanel) {
+          await notebookPanel.revealed;
+          await notebookPanel.sessionContext.ready;
+    
+          ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', { name: hubUser });
+        }
 
-        await notebookPanel.revealed;
-        await notebookPanel.sessionContext.ready;
+        await app.restored;
 
-        // let hubUser = document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))?.split('=')[1];
+        notebookTracker.forEach((notebookPanel: NotebookPanel) => {
 
-        ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', { name: hubUser });
+          setAwareness(notebookPanel);
+        });
+
+        notebookTracker.widgetAdded.connect(async (sender: INotebookTracker, notebookPanel: NotebookPanel) => {
+
+          setAwareness(notebookPanel);
+        });
+
       }
-
-      notebookTracker.forEach((notebookPanel: NotebookPanel) => {
-
-        setAwareness(notebookPanel);
-      });
-
-      notebookTracker.widgetAdded.connect(async (sender: INotebookTracker, notebookPanel: NotebookPanel) => {
-
-        setAwareness(notebookPanel);
-      });
-
+      catch (e) {
+        console.error(e);
+      }
     })();
   }
 };

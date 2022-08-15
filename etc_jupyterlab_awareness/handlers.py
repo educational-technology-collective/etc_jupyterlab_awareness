@@ -30,8 +30,7 @@ class RouteHandler(APIHandler):
                     response = response.json()    
                     self.finish(response['name'])
                 except Exception as e:
-                    self.set_status(404)
-                    self.finish(json.dumps(str(e)))
+                    self.finish("UNDEFINED")
             else:
                 self.set_status(404)
 
