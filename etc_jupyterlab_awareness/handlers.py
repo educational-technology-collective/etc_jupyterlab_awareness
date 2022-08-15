@@ -17,20 +17,22 @@ class RouteHandler(APIHandler):
 
         try:
             self.set_header('Content-Type', 'application/json')
-            
+
             if resource == 'version':
                 self.finish(json.dumps(_fetchVersion()))
             if resource == 'hub_user':
                 try:
                     jupyterhub_api_url = os.getenv('JUPYTERHUB_API_URL')
                     token = self.request.headers['authorization']
-                    headers = {'authorization': f'{token}', 'accept': 'application/json'}
-                    response = requests.get(f'{jupyterhub_api_url}/user', headers=headers)
+                    headers = {'authorization': f'{token}',
+                               'accept': 'application/json'}
+                    response = requests.get(
+                        f'{jupyterhub_api_url}/user', headers=headers)
                     response.raise_for_status()
-                    response = response.json()    
-                    self.finish(json.dumps({'name':response['name']}))
+                    response = response.json()
+                    self.finish(json.dumps({'name': response['name']}))
                 except Exception as e:
-                    self.finish(json.dumps({'name':"UNKNOWN"}))
+                    self.finish(json.dumps({'name': "UNKNOWN"}))
             else:
                 self.set_status(404)
 
