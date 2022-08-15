@@ -29,7 +29,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
       const VERSION = await requestAPI<string>("version")
 
       console.log(`${PLUGIN_ID}, ${VERSION}`);
-      
+
+      const hubUser = await requestAPI<string>("hub_user")
+
+      console.log(hubUser);
+
       await app.restored;
 
       async function setAwareness(notebookPanel: NotebookPanel) {
@@ -37,7 +41,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         await notebookPanel.revealed;
         await notebookPanel.sessionContext.ready;
 
-        let hubUser = document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))?.split('=')[1];
+        // let hubUser = document?.cookie?.split('; ')?.find(row => row.startsWith('hub_user='))?.split('=')[1];
 
         ((notebookPanel.content.model?.sharedModel as unknown) as ymodels.YDocument<any>).awareness.setLocalStateField('user', { name: hubUser });
       }
