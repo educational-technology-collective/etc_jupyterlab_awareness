@@ -28,9 +28,9 @@ class RouteHandler(APIHandler):
                     response = requests.get(f'{jupyterhub_api_url}/user', headers=headers)
                     response.raise_for_status()
                     response = response.json()    
-                    self.finish(response['name'])
+                    self.finish(json.dumps({'name':response['name']}))
                 except Exception as e:
-                    self.finish("UNKNOWN")
+                    self.finish(json.dumps({'name':"UNKNOWN"}))
             else:
                 self.set_status(404)
 
